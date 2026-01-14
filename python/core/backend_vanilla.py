@@ -15,7 +15,7 @@ def get_array_copy(game_grid):
 
 def calculate_array(game_grid):
     rows = len(game_grid)
-    cols = len(game_grid[0])
+    cols = len(game_grid[0]) 
 
     new_game_grid = [[0] * cols for _ in range(rows)]
 

@@ -2,6 +2,8 @@ from core.engine import BACKENDS, calculate_step, get_game_grid_copy, set_game_g
 import dearpygui.dearpygui as dpg
 import time
 
+# Cała konfiguracja GUI odpala się przy imporcie; Takie rzeczy powinno się opakować w funkcję main / klasę / funkcje. 
+
 CELL_SIZE = 10
 ALIVE_COLOR = (0, 0, 0, 255)
 DEAD_COLOR = (255, 255, 255, 255)
@@ -43,7 +45,7 @@ def on_click():
     set_grid()
     rows, cols = dpg.get_values(("rows_value", "cols_value"))
 
-    dpg.delete_item("game_grid")
+    dpg.delete_item("game_grid") 
 
     game_grid_rects = [[None for _ in range(cols)] for _ in range(rows)]
     dpg.delete_item("game_grid")
@@ -116,7 +118,7 @@ def run_iterations():
 
     if running:
         return
-    running = True
+    running = True # Co robi running?
 
     gen, interval = dpg.get_values(("gen_value", "time_value"))
     if interval > 0:
@@ -124,8 +126,7 @@ def run_iterations():
     else:
         for _ in range(gen):
             next_step()
-            running = False
-
+            running = False # Co ten running robi?
 
 def stop_simulation():
     global running

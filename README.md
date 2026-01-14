@@ -22,6 +22,7 @@ _Wymagana wersja Python 3.8+_
 ### cli
 
 **lista możliwych argumentów**
+
 |Argument|Skrót|Wartość|Opis|
 |---|---|---|---|
 |--size|-s|int int|wielkość planszy. Wymaga podania dwóch liczb: liczba wierszy i kolumn|

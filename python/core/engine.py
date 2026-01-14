@@ -1,7 +1,9 @@
 from core import backend_vanilla
 
+# Żaden moduł nie ma adnotacji typów, co obniża czytelność i narzędzia nie pomogą w wykrywaniu błędów.
+
 BACKENDS = ["vanilla", "numpy"]
-b = backend_vanilla
+b = backend_vanilla  # Global zmieniany w trakcie działania; brak izolacji między równoległymi grami.
 
 
 def get_backend(backend):
@@ -9,11 +11,11 @@ def get_backend(backend):
 
     match backend:
         case "numpy":
-            from core import backend_numpy
-
+            from core import backend_numpy # Importy w środku kodu. To zła praktyka. Dynamiczne importowanie uniemożliwia statyczną analizę kodu 
+ 
             b = backend_numpy
         case "vanilla":
-            from core import backend_vanilla
+            from core import backend_vanilla # Importy w środku kodu. To zła praktyka.
 
             b = backend_vanilla
         case _:

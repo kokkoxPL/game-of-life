@@ -1,5 +1,16 @@
+# E401 [*] Multiple imports on one line
 import argparse, time
 from core.engine import set_game_grid, calculate_step, BACKENDS
+
+# Brak type hintów. Typehinty w pythonie to dziś abligatoryjny standard, ułatwiają czytelność i korzystanie z IDE i ogólnie ułatwia życie wszystkim.
+# Dzięki typom python staje się całkiem przyjemnym językiem do pisania każdego rodzaju projektu.
+
+# Brak jakiejkolwiek deklaracji środowiska (pyproject/requirements/uv/conda) – to też dziś wymagane. Sprawdź jak to działa w innych projektach.
+
+# Uwaga: cały moduł uruchamia się przy imporcie (brak main guard) co utrudnia testy/ponowne użycie.
+
+# Sprawdź warningi generowane przez narzędzie 'ruff'
+# python -m ruff check  
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-p", "--print", action="store_true")
@@ -55,14 +66,15 @@ if filename:
 if filename is None and p_random is None:
     print("Podaj pozycje: początkowych żywych komórek w formacie 'x y' (pozostaw puste, aby zakończyć): ")
     while line := input().strip():
+        # Pusta linia jest już odfiltrowana przez strip() powyżej; ten warunek nigdy nie wykona się.
         if not line:
             break
-        x, y = map(int, line.split())
+        x, y = map(int, line.split())  # Brak obsługi błędów - invalid input wywali program.
 
         if 0 <= x < rows and 0 <= y < cols:
             game_grid[x][y] = 1
 
-
+# To nie jest konwencjonalny sposób nazywania funkcji w Pythonie - używamy snake_case zamiast camelCase.
 def printMap():
     for row in game_grid:
         print(" ".join("X" if cell else "." for cell in row))

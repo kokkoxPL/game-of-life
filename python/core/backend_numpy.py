@@ -14,6 +14,7 @@ def get_array_copy(game_grid):
 
 
 def calculate_array(game_grid):
+    # Zakładamy poprawny ndarray o dwóch wymiarach; brak walidacji typu/kształtu. Brak sprawdzania kształtu jest akceptowalny, jeśli funkcja jest często używana - to szkoda wydajności. 
     padded_grid = np.pad(game_grid, pad_width=1, mode="constant", constant_values=0)
 
     neigh_sum = (
