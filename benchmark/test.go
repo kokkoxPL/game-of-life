@@ -20,42 +20,80 @@ func runCommand(name string, args ...string) (time.Duration, error) {
 }
 
 func benchmark(name string, cmd string, args []string, times int) {
-	fmt.Printf("Benchmarking %s:\n", name)
+	fmt.Printf("Testowanie %s:\n", name)
 	runCommand(cmd, args...)
-
+	
 	var total time.Duration
 	for range times {
 		elapsed, err := runCommand(cmd, args...)
 		if err != nil {
-			fmt.Printf("%s failed: %v\n", name, err)
+			fmt.Printf("%s błąd: %v\n", name, err)
 			break
 		}
 		total += elapsed
 	}
 
-	fmt.Printf("Average time: %s\n\n", total/time.Duration(times))
+	fmt.Printf("Średni czas: %s\n\n", total/time.Duration(times))
 }
 
 
 func main() {
 	runs := 10
 
-	// c := "./c/main.out"
-	// cArgs := []string{} 
-	// benchmark("C 1", c, cArgs, runs)
-	//
-	// c2 := "./c/main2.out"
-	// cArgs2 := []string{} 
-	// benchmark("C 2", c2, cArgs2, runs)
+	c := "./c/build/GameOfLife-cli.exe"
+	cArgs := []string{
+		"-s", "32", "32",
+		"-g", "50",
+		// "-f", "./benchmark/test_val.txt",
+	} 
+	benchmark("C 32x32", c, cArgs, runs)
 
+	
+	cArgsSimd := []string{
+		"-s", "32", "32",
+		"-g", "1",
+		"--simd",
+		// "-f", "./benchmark/test_val.txt",
+	} 
+	benchmark("C 32x32(simd)", c, cArgsSimd, runs)
+
+
+	cArgs2 := []string{
+		"-s", "1024", "1024",
+		"-g", "50",
+		// "-f", "./benchmark/test_val.txt",
+	} 
+	benchmark("C 1024x1024", c, cArgs2, runs)
+
+	
+	cArgsSimd2 := []string{
+		"-s", "1024", "1024",
+		"-g", "50",
+		"--simd",
+		// "-f", "./benchmark/test_val.txt",
+	} 
+	benchmark("C 1024x1024(simd)", c, cArgsSimd2, runs)
+	
 	python := []string{
 		"./python/cli.py",
-		"-s", "10", "10",
-		"-g", "10",
-		"-f", "./python/val.txt",
-		"-b",
-		"-n",
+		"-s", "32", "32",
+		"-g", "50",
+		"-r", "0.4",
+		"-b", "numpy",
+		"-i",
 	}
 
-	benchmark("Python: ", "python", python, runs)
+	benchmark("Python", "python", python, runs)
+
+	pythonUv := []string{
+    	"run",
+		"./python/cli.py",
+		"-s", "32", "32",
+		"-g", "50",
+		"-r", "0.4",
+		"-b", "numpy",
+		"-i",
+	}
+
+	benchmark("Python (uv)", "uv", pythonUv, runs)
 }

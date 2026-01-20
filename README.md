@@ -71,7 +71,7 @@ Projekt jest kompilowany przy pomocy cmake.
 **Pierwsze stworzenie folderu build**
 
 ```bash
-cmake -S . -B build
+cmake -G Ninja -B build
 ```
 
 **Kompilacja programu**
