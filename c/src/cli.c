@@ -5,7 +5,8 @@
 
 int main(int argc, char *argv[]) {
   int rows = 10, cols = 10, gen = 10;
-  int print = 0, simd = 0;
+  int use_print = 0, use_simd = 0;
+  double random = 0;
   char fileName[100] = {0};
   uint8_t *game_grid = NULL;
   uint8_t *next_game_grid = NULL;
@@ -25,34 +26,41 @@ int main(int argc, char *argv[]) {
       snprintf(fileName, sizeof(fileName), "%s", argv[++i]);
     }
     if ((strcmp(argv[i], "-p") == 0 || strcmp(argv[i], "--print") == 0)) {
-      print = 1;
+      use_print = 1;
+    }
+    if ((strcmp(argv[i], "-r") == 0 || strcmp(argv[i], "--random") == 0) &&
+        (i + 1 < argc)) {
+      double tmp = atof(argv[++i]);
+      if (tmp >= 0 && tmp <= 1) {
+        random = tmp;
+      } else {
+      }
     }
     if (strcmp(argv[i], "--simd") == 0) {
-      simd = 1;
+      use_simd = 1;
     }
   }
 
   if (fileName[0] != '\0') {
-    printf("a");
     game_grid = set_game_grid(rows, cols);
     read_from_file(fileName, game_grid, rows, cols);
   } else {
-    game_grid = set_random_game_grid(rows, cols, 0.4f);
+    game_grid = set_random_game_grid(rows, cols, random);
   }
 
   next_game_grid = set_game_grid(rows, cols);
 
-  if (print)
+  if (use_print)
     print_game_grid(game_grid, rows, cols);
 
   while (gen-- > 0) {
-    next_step(game_grid, next_game_grid, rows, cols, simd);
+    next_step(game_grid, next_game_grid, rows, cols, use_simd);
 
     uint8_t *tmp = game_grid;
     game_grid = next_game_grid;
     next_game_grid = tmp;
 
-    if (print)
+    if (use_print)
       print_game_grid(game_grid, rows, cols);
   }
 

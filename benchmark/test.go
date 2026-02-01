@@ -55,7 +55,7 @@ func main() {
 		"--simd",
 		// "-f", "./benchmark/test_val.txt",
 	} 
-	benchmark("C 32x32(simd)", c, cArgsSimd, runs)
+	benchmark("C 32x32 (simd)", c, cArgsSimd, runs)
 
 
 	cArgs2 := []string{
@@ -72,8 +72,8 @@ func main() {
 		"--simd",
 		// "-f", "./benchmark/test_val.txt",
 	} 
-	benchmark("C 1024x1024(simd)", c, cArgsSimd2, runs)
-	
+	benchmark("C 1024x1024 (simd)", c, cArgsSimd2, runs)
+
 	python := []string{
 		"./python/cli.py",
 		"-s", "32", "32",
